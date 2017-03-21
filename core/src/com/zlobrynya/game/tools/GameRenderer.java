@@ -50,14 +50,21 @@ public class GameRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batcher.begin();
+        Vector3 position = conversionVector(mainChapter.getX(),mainChapter.getY());
         batcher.disableBlending();
-        batcher.draw(AssetLoad.textureMainChapter, mainChapter.getX(), mainChapter.getY(), mainChapter.getWidth(), mainChapter.getHeight());
+        batcher.draw(AssetLoad.textureMainChapter, position.x, position.y, mainChapter.getWidth(), mainChapter.getHeight());
         batcher.end();
 
         drawBlock();
      //   if (rope.isDraw()){
             drawRope();
       //  }
+    }
+
+    private Vector3 conversionVector(float x, float y){
+        Vector3 vector3 = new Vector3(x,y,0);
+        cam.unproject(vector3);
+        return vector3;
     }
 
     private void drawRope(){

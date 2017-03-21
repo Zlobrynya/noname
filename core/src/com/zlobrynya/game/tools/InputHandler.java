@@ -14,9 +14,11 @@ import com.zlobrynya.game.screen.GameScreen;
 
 public class InputHandler implements GestureDetector.GestureListener {
     private Rope rope;
+    private MainChapter mainChapter;
 
-    public InputHandler(Rope rope){
+    public InputHandler(Rope rope, MainChapter mainChapter){
         this.rope = rope;
+        this.mainChapter = mainChapter;
     }
 
     @Override
@@ -58,6 +60,7 @@ public class InputHandler implements GestureDetector.GestureListener {
         Gdx.app.log("panStop", x+" "+y);
         Gdx.app.log("GameScreen", GameScreen.screenHeight +" "+ GameScreen.screenWidth);
         rope.setEndPosition(x,y);
+        mainChapter.setEndPosition(x,y);
         return false;
     }
 

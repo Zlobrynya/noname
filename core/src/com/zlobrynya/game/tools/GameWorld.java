@@ -16,12 +16,12 @@ public class GameWorld {
     private MainChapter mainChapter;
     private Rope rope;
     private ArrayList<Block> blocks;
-    private final int SPEEND = 50;
+    private final int SPEEND = 25;
 
     public GameWorld(){
-        mainChapter = new MainChapter(10,20,10,160);
+        mainChapter = new MainChapter(10,20,10,160,SPEEND);
+        //mainChapter.setEndPosition(250,10);
         blocks = new ArrayList<Block>();
-
         rope = new Rope();
         int tmp = 50;
         //Для верха
@@ -32,11 +32,6 @@ public class GameWorld {
             blocks.add(block2);
             tmp += GameScreen.gameHeight / 2;
         }
-<<<<<<< HEAD
-        //f
-
-=======
->>>>>>> origin/master
     }
 
     public void update(float delta){
@@ -45,6 +40,7 @@ public class GameWorld {
             block.update(delta);
             blocks.set(i,block);
         }
+        mainChapter.update(delta);
         //float x = mainChapter.getX() + 1;
         //mainChapter.editPosition(x,mainChapter.getY());
     }
