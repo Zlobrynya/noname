@@ -32,8 +32,11 @@ public class GameWorld {
             blocks.add(block2);
             tmp += GameScreen.gameHeight / 2;
         }
+<<<<<<< HEAD
         //f
 
+=======
+>>>>>>> origin/master
     }
 
     public void update(float delta){
