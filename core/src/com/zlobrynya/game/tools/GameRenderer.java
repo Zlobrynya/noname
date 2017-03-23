@@ -42,7 +42,7 @@ public class GameRenderer {
         rope = gameWorld.getRope();
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
-
+        mainChapter.setCam(cam);
     }
 
     public void render(float delta){
@@ -50,14 +50,15 @@ public class GameRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batcher.begin();
-        Vector3 position = conversionVector(mainChapter.getX(),mainChapter.getY());
+        // Vector3 position = conversionVector(mainChapter.getX(),mainChapter.getY());
+        // Vector3 position = new Vector3(rope.getEndX(), rope.getEndY(),0);
         batcher.disableBlending();
-        batcher.draw(AssetLoad.textureMainChapter, position.x, position.y, mainChapter.getWidth(), mainChapter.getHeight());
+        batcher.draw(AssetLoad.textureMainChapter, mainChapter.getX(), mainChapter.getY(), mainChapter.getWidth(), mainChapter.getHeight());
         batcher.end();
 
         drawBlock();
      //   if (rope.isDraw()){
-            drawRope();
+        //    drawRope();
       //  }
     }
 
@@ -99,9 +100,10 @@ public class GameRenderer {
             shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
 
             // Отрисовываем квадрат из myWorld (Используем ShapeType.Filled)
-            shapeRenderer.rect(block.getX(), block.getY(),
-                    block.getLength(), 10);
-
+            /*shapeRenderer.rect(block.getX(), block.getY(),
+                    block.getLength(), 10);*/
+            shapeRenderer.rect(block.getRectangle().x,block.getRectangle().y,
+                    block.getRectangle().width,block.getRectangle().height);
             // говорим shapeRenderer прекратить отрисовку
             // Мы ДОЛЖНЫ каждый раз это делать
             shapeRenderer.end();
@@ -117,8 +119,8 @@ public class GameRenderer {
             shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
 
             // Отрисовываем квадрат из myWorld (Используем ShapeType.Filled)
-            shapeRenderer.rect(block.getX(), block.getY(),
-                    block.getLength(), 10);
+          /*  shapeRenderer.rect(block.getX(), block.getY(),
+                    block.getLength(), 10);*/
 
             shapeRenderer.end();
         }

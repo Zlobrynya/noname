@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Nikita on 15.03.2017.
- * Обновление игровых данных.
+ * Обновление игровых данных. Логика.
  */
 
 public class GameWorld {
@@ -17,6 +17,8 @@ public class GameWorld {
     private Rope rope;
     private ArrayList<Block> blocks;
     private final int SPEEND = 25;
+    private final int UP = 11;
+    private final int DOWN = 180;
 
     public GameWorld(){
         mainChapter = new MainChapter(10,20,10,160,SPEEND);
@@ -40,7 +42,25 @@ public class GameWorld {
             block.update(delta);
             blocks.set(i,block);
         }
+        /*for (Block block: blocks){
+            mainChapter.collides(block.getRectangle());
+        }*/
         mainChapter.update(delta);
+        if (mainChapter.getY() <= UP && mainChapter.getY() > (UP-5)){
+            for (int i = 0; i < blocks.size(); i += 2){
+                Block block = blocks.get(i);
+                mainChapter.collides(block.getRectangle());
+            }
+        }
+        /*&& (mainChapter.getY()+mainChapter.getHeight()) < 185*/
+        float posHeight = mainChapter.getY()+mainChapter.getHeight();
+        if (posHeight >= DOWN && posHeight <= 200){
+            for (int i = 1; i < blocks.size(); i += 2){
+                Block block = blocks.get(i);
+                mainChapter.collides(block.getRectangle());
+            }
+        }
+
         //float x = mainChapter.getX() + 1;
         //mainChapter.editPosition(x,mainChapter.getY());
     }
