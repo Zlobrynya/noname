@@ -37,6 +37,11 @@ public class Block {
         rectangle.y = position.y;
     }
 
+    public void setSpeend(float speend){
+        velocity.set(-speend,0);
+    }
+
+
     public float getLength() {
         return length;
     }

@@ -89,6 +89,11 @@ public class MainChapter {
         rectangle.setPosition(x,y);
     }
 
+    public void setSpeend(float speend){
+        velocity.set(speend*6,-speend*6);
+        downtime.set(-speend,0);
+    }
+
     public int getHeight() {
         return height;
     }

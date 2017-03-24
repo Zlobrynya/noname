@@ -52,8 +52,13 @@ public class GameRenderer {
     }
 
     public void render(float delta){
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        batcher.begin();
+        batcher.disableBlending();
+        batcher.draw(AssetLoad.bg, 0, 0, gameHeight, 200);
+        batcher.end();
 
         switch (gameWorld.getCurrentState()){
             case READY:
@@ -121,7 +126,7 @@ public class GameRenderer {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
             // Выбираем RGB Color 87, 109, 120, не прозрачный
-            shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+            shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
 
             // Отрисовываем квадрат из myWorld (Используем ShapeType.Filled)
             /*shapeRenderer.rect(block.getX(), block.getY(),

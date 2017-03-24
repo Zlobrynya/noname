@@ -1,5 +1,6 @@
 package com.zlobrynya.game.tools;
 
+import com.badlogic.gdx.utils.Timer;
 import com.zlobrynya.game.object.Block;
 import com.zlobrynya.game.object.MainChapter;
 import com.zlobrynya.game.object.Rope;
@@ -16,10 +17,11 @@ public class GameWorld {
     private MainChapter mainChapter;
     private Rope rope;
     private ArrayList<Block> blocks;
-    private final int SPEEND = 40;
+    private int SPEEND = 40;
     private final int UP = 11;
     private final int DOWN = 180;
     private GameState currentState;
+    private int kolTimer;
 
     public enum GameState {
         READY, RUNNING, GAMEOVER, HIGHSCORE
@@ -40,6 +42,7 @@ public class GameWorld {
             blocks.add(block2);
             tmp += GameScreen.gameHeight / 2;
         }
+        startTimer();
     }
 
     public void update(float delta){
@@ -51,9 +54,24 @@ public class GameWorld {
                 break;
         }
 
-
+        if (kolTimer <= 0){
+            startTimer();
+        }
         //float x = mainChapter.getX() + 1;
         //mainChapter.editPosition(x,mainChapter.getY());
+    }
+
+    private void startTimer(){
+        kolTimer = 60;
+        //таймер для увелечения скорости игры.
+        new Timer().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                SPEEND += 5;
+                kolTimer--;
+                setSpend();
+            }
+        },10,50,kolTimer);
     }
 
     private void updateRunning(float delta){
@@ -65,7 +83,7 @@ public class GameWorld {
 
         mainChapter.update(delta);
 
-        if (mainChapter.getY() <= UP && mainChapter.getY() > (UP-5)){
+        if (mainChapter.getY() <= UP && mainChapter.getY() > 0){
             for (int i = 0; i < blocks.size(); i += 2){
                 Block block = blocks.get(i);
                 mainChapter.collides(block.getRectangle());
@@ -89,8 +107,18 @@ public class GameWorld {
 
     private void restart(){
         mainChapter.restart(50,100);
-
+        setSpend();
     }
+
+    private void setSpend(){
+        mainChapter.setSpeend(SPEEND);
+        for(int i = 0; i < blocks.size(); i++){
+            Block block = blocks.get(i);
+            block.setSpeend(SPEEND);
+            blocks.set(i,block);
+        }
+    }
+
 
     public GameState getCurrentState() {
         return currentState;

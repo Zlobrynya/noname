@@ -61,8 +61,10 @@ public class InputHandler implements GestureDetector.GestureListener {
         Gdx.app.log("-------", "-------");
         Gdx.app.log("panStop", x+" "+y);
         Gdx.app.log("GameScreen", GameScreen.screenHeight +" "+ GameScreen.screenWidth);
-        rope.setEndPosition(x,y);
-        mainChapter.setEndPosition(x,y);
+        if (gameWorld.getCurrentState() == GameWorld.GameState.RUNNING){
+            rope.setEndPosition(x,y);
+            mainChapter.setEndPosition(x,y);
+        }
         return false;
     }
 
