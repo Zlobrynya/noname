@@ -35,26 +35,14 @@ public class MainChapter {
         velocity = new Vector2(speend*6,-speend*6);
         downtime = new Vector2(-speend,0);
         vector2 = new Vector2(0,0);
-        rectangle = new Rectangle(x,y,width+2,height+2);
+        rectangle = new Rectangle(x,y,width,height);
     }
 
     public void update(float delta){
-        /*
-        if (position.x != endPosition.x && position.y != endPosition.y){
-            position.add(velocity.cpy().scl(delta));
-        }*/
         if (motion){
             position.add(vector2.cpy().scl(delta));
             rectangle.x = position.x;
             rectangle.y = position.y;
-            /*if (position.y < 10){
-                motion = false;
-                position.y = 11;
-            }
-            if (position.y > 170){
-                motion = false;
-                position.y = 169;
-            }*/
         }else {
            position.add(downtime.cpy().scl(delta));
            rectangle.x = position.x;
@@ -87,8 +75,18 @@ public class MainChapter {
         if (motion)
             if (Intersector.overlaps(this.rectangle, rectangle)) {
                 motion = false;
-
+                if (position.y < 20){
+                    position.y = rectangle.y + rectangle.height + 1;
+                    this.rectangle.y = rectangle.y + rectangle.height + 1;
+                }
             }
+    }
+
+    public void restart(int x, int y){
+        position.set(x,y);
+        vector2.set(0,0);
+        motion = false;
+        rectangle.setPosition(x,y);
     }
 
     public int getHeight() {

@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 
         gameWorld = new GameWorld();
         gameRenderer = new GameRenderer(gameWorld,gameHeight);
-        Gdx.input.setInputProcessor((new GestureDetector(new InputHandler(gameWorld.getRope(),gameWorld.getMainChapter()))));
+        Gdx.input.setInputProcessor((new GestureDetector(new InputHandler(gameWorld))));
 
     }
 
@@ -49,7 +49,6 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         gameWorld.update(delta);
-
         gameRenderer.render(delta);
     }
 

@@ -15,10 +15,12 @@ import com.zlobrynya.game.screen.GameScreen;
 public class InputHandler implements GestureDetector.GestureListener {
     private Rope rope;
     private MainChapter mainChapter;
+    private GameWorld gameWorld;
 
-    public InputHandler(Rope rope, MainChapter mainChapter){
-        this.rope = rope;
-        this.mainChapter = mainChapter;
+    public InputHandler(GameWorld gameWorld){
+        this.rope = gameWorld.getRope();
+        this.mainChapter = gameWorld.getMainChapter();
+        this.gameWorld = gameWorld;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class InputHandler implements GestureDetector.GestureListener {
     @Override
     public boolean tap(float x, float y, int count, int button) {
      //   rope.setEndPosition(x ,y);
-
+        gameWorld.setCurrentState(GameWorld.GameState.RUNNING);
         return false;
     }
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.zlobrynya.game.object.Block;
 import com.zlobrynya.game.object.MainChapter;
 import com.zlobrynya.game.object.Rope;
@@ -28,15 +29,20 @@ public class GameRenderer {
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
     private Rope rope;
-
+    private float gameHeight;
+    private Vector3 posText;
 
     public GameRenderer(GameWorld gameWorld, float gameHeight){
+        this.gameHeight = gameHeight;
         batch = new SpriteBatch();
         this.gameWorld = gameWorld;
         mainChapter = gameWorld.getMainChapter();
         cam = new OrthographicCamera();
         //noinspection SuspiciousNameCombination
         cam.setToOrtho(true, gameHeight, 200);
+        posText = new Vector3(GameScreen.screenWidth / 4, GameScreen.screenHeight / 2, 0);
+        posText = cam.unproject(posText);
+
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
         rope = gameWorld.getRope();
@@ -49,18 +55,35 @@ public class GameRenderer {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        switch (gameWorld.getCurrentState()){
+            case READY:
+                renderText("Touch me!");
+                break;
+            case RUNNING:
+                renderRunning(delta);
+                break;
+            case GAMEOVER:
+                renderText("Game Over!");
+                break;
+        }
+    }
+
+    private void renderRunning(float delta){
         batcher.begin();
-        // Vector3 position = conversionVector(mainChapter.getX(),mainChapter.getY());
-        // Vector3 position = new Vector3(rope.getEndX(), rope.getEndY(),0);
         batcher.disableBlending();
         batcher.draw(AssetLoad.textureMainChapter, mainChapter.getX(), mainChapter.getY(), mainChapter.getWidth(), mainChapter.getHeight());
         batcher.end();
-
         drawBlock();
-     //   if (rope.isDraw()){
-        //    drawRope();
-      //  }
+    }
 
+    private void renderText(String text){
+        batcher.begin();
+        batcher.disableBlending();
+        // Отрисуем сначала тень
+        AssetLoad.shadow.draw(batcher, text, posText.x, posText.y);
+        // А теперь сам текст
+        AssetLoad.font.draw(batcher, text, posText.x , posText.y);
+        batcher.end();
     }
 
     private Vector3 conversionVector(float x, float y){

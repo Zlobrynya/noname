@@ -24,7 +24,6 @@ public class Block {
         r = new Random();
         length = r.nextInt(20) + 10;
         rectangle = new Rectangle(x,y,length,10);
-
     }
 
     public void update(float delta){

@@ -16,12 +16,18 @@ public class GameWorld {
     private MainChapter mainChapter;
     private Rope rope;
     private ArrayList<Block> blocks;
-    private final int SPEEND = 25;
+    private final int SPEEND = 40;
     private final int UP = 11;
     private final int DOWN = 180;
+    private GameState currentState;
+
+    public enum GameState {
+        READY, RUNNING, GAMEOVER, HIGHSCORE
+    }
 
     public GameWorld(){
-        mainChapter = new MainChapter(10,20,10,160,SPEEND);
+        currentState = GameState.READY;
+        mainChapter = new MainChapter(10,20,50,100,SPEEND);
         //mainChapter.setEndPosition(250,10);
         blocks = new ArrayList<Block>();
         rope = new Rope();
@@ -37,14 +43,26 @@ public class GameWorld {
     }
 
     public void update(float delta){
+        switch (currentState){
+            case RUNNING:
+                updateRunning(delta);
+                break;
+            case READY:
+                break;
+        }
+
+
+        //float x = mainChapter.getX() + 1;
+        //mainChapter.editPosition(x,mainChapter.getY());
+    }
+
+    private void updateRunning(float delta){
         for(int i = 0; i < blocks.size(); i++){
             Block block = blocks.get(i);
             block.update(delta);
             blocks.set(i,block);
         }
-        /*for (Block block: blocks){
-            mainChapter.collides(block.getRectangle());
-        }*/
+
         mainChapter.update(delta);
 
         if (mainChapter.getY() <= UP && mainChapter.getY() > (UP-5)){
@@ -53,7 +71,7 @@ public class GameWorld {
                 mainChapter.collides(block.getRectangle());
             }
         }
-        /*&& (mainChapter.getY()+mainChapter.getHeight()) < 185*/
+
         float posHeight = mainChapter.getY()+mainChapter.getHeight();
         if (posHeight >= DOWN && posHeight <= 200){
             for (int i = 1; i < blocks.size(); i += 2){
@@ -62,11 +80,27 @@ public class GameWorld {
             }
         }
 
-        //float x = mainChapter.getX() + 1;
-        //mainChapter.editPosition(x,mainChapter.getY());
+        if (mainChapter.getY() < 0 || mainChapter.getY() > 200
+                || (mainChapter.getX() + mainChapter.getHeight() / 2) < 0 || mainChapter.getX() > GameScreen.gameHeight){
+            currentState = GameState.GAMEOVER;
+            restart();
+        }
     }
 
-    public ArrayList<Block> getBlocks() {
+    private void restart(){
+        mainChapter.restart(50,100);
+
+    }
+
+    public GameState getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(GameState currentState) {
+        this.currentState = currentState;
+    }
+
+    ArrayList<Block> getBlocks() {
         return blocks;
     }
 
