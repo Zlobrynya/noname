@@ -87,6 +87,7 @@ public class MainChapter {
         if (motion)
             if (Intersector.overlaps(this.rectangle, rectangle)) {
                 motion = false;
+
             }
     }
 

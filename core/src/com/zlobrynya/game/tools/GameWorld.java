@@ -46,6 +46,7 @@ public class GameWorld {
             mainChapter.collides(block.getRectangle());
         }*/
         mainChapter.update(delta);
+
         if (mainChapter.getY() <= UP && mainChapter.getY() > (UP-5)){
             for (int i = 0; i < blocks.size(); i += 2){
                 Block block = blocks.get(i);

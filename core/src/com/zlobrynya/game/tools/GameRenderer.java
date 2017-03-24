@@ -60,6 +60,7 @@ public class GameRenderer {
      //   if (rope.isDraw()){
         //    drawRope();
       //  }
+
     }
 
     private Vector3 conversionVector(float x, float y){
